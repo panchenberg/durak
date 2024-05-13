@@ -52,7 +52,11 @@ def theGame(player1, player2):
     print("username2 your move")
     card2 = player2.playCard()
     result = compare(card1, card2)
-    if result == 0 or -1:
+    print(result)
+    if result == -1:
+        player1.hand.append(card1)
+        player2.hand.append(card2)
+    if result == 0:
         player1.hand.append(card1)
         player2.hand.append(card2)
     else:
