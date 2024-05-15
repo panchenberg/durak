@@ -77,8 +77,9 @@ class Card:
 
 
 class Player:
-    def __init__(self, hand):
+    def __init__(self, hand, name):
         self.hand = hand
+        self.name = name
 
     def playCard(self):
         print(self.hand)
@@ -100,15 +101,15 @@ deck = createNewDeck(deck)
 trump = deck[1]
 deck = deck[0]
 
-player1 = Player(dealing(deck))
-player2 = Player(dealing(deck))
+player1 = Player(dealing(deck), 'Sanya')
+player2 = Player(dealing(deck), 'Timo')
 
 
 
 def theGame(player1, player2):
-    print("username1 your move") #TODO make username change
+    print(f"{player1.name} it's your turn")
     card1 = player1.playCard()
-    print("username2 your move")
+    print(f"{player2.name} it's your turn")
     card2 = player2.playCard()
     result = compare(card1, card2, trump)
     print(result)
