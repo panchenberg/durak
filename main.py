@@ -39,18 +39,24 @@ def createNewDeck(deck):
     return deck, trump
 
 
-def compare(first, second, trump):
+def checkWin(player):
+    if len(player.hand) == 0:
+        print(f"{player.name} Congratulations you win!")
+        exit(0)
+        # TODO write a score of players
 
+
+def compare(first, second, trump):
     if first.suit == second.suit:
         if first.value > second.value:
             print(f"{second.__str__()} not beat {first.__str__()}")
-            return -1
+            return 0
         if first.value < second.value:
             print(f"{second.__str__()} beat {first.__str__()}")
             return 1
     elif first.suit == trump:
         print(f"{second.__str__()} not beat {first.__str__()}")
-        return -1
+        return 0
     elif second.suit == trump:
         print(f"{second.__str__()} beat {first.__str__()}")
         return 1
@@ -70,7 +76,8 @@ class Card:
     def __str__(self):
         return self.values[self.value] + " of " + self.suits[self.suit]
 
-    __repr__ = __str__
+    def __repr__(self):
+        return "object of class Card/ suit and value " + str(self.suit) + " ," + str(self.value)
 
     suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
     values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
@@ -82,9 +89,14 @@ class Player:
         self.name = name
 
     def playCard(self):
-        print(self.hand)
-        print(f"what card do you want to play? (0-{len(self.hand)-1})")
-        chosenIndex = int(input())
+        for i in range(len(self.hand)):
+            print(f"#{i} - {self.hand[i]}")
+        print(f"what card do you want to play? (0-{len(self.hand) - 1})")
+        while True:
+            chosenIndex = input()
+            if type(chosenIndex) == int:
+                break
+            print("try again")
         chosenCard = self.hand.pop(chosenIndex)
         return chosenCard
 
@@ -96,7 +108,6 @@ class Player:
                 print("Deck is empty")
 
 
-
 deck = createNewDeck(deck)
 trump = deck[1]
 deck = deck[0]
@@ -105,15 +116,16 @@ player1 = Player(dealing(deck), 'Sanya')
 player2 = Player(dealing(deck), 'Timo')
 
 
-
 def theGame(player1, player2):
+    checkWin(player1)
     print(f"{player1.name} it's your turn")
     card1 = player1.playCard()
+    checkWin(player2)
     print(f"{player2.name} it's your turn")
     card2 = player2.playCard()
     result = compare(card1, card2, trump)
     print(result)
-    if result == -1:
+    if result == 0:
         player1.hand.append(card1)
         player2.hand.append(card2)
     else:
@@ -122,4 +134,5 @@ def theGame(player1, player2):
         theGame(player2, player1)
     theGame(player1, player2)
 
-theGame(player1,player2)
+
+theGame(player1, player2)
