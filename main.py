@@ -2,10 +2,10 @@ import random
 
 # I don't see reason for class deck, so it will be a bunch of functions
 
-#suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
-#values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
-suits = ['Hearts', 'Diamonds']
-values = ['2', '3', '4', '5']
+suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
+values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
+# suits = ['Hearts', 'Diamonds'] # shorted for tests
+# values = ['2', '3', '4', '5']
 
 deck = []
 
@@ -17,7 +17,7 @@ def dealing(deck):
     :return: 6 cards hand
     """
     hand = []
-    for i in range(0, 2):
+    for i in range(0, 6):
         hand.append(deck.pop())
     return hand
 
@@ -94,9 +94,13 @@ class Player:
         print(f"what card do you want to play? (0-{len(self.hand) - 1})")
         while True:
             chosenIndex = input()
-            if type(chosenIndex) == int:
-                break
-            print("try again")
+            try:
+                chosenIndex = int(chosenIndex)
+                if chosenIndex <= (len(self.hand)-1):
+                    break
+                print("out of reach")
+            except ValueError:
+                print("it's not a number")
         chosenCard = self.hand.pop(chosenIndex)
         return chosenCard
 
@@ -106,6 +110,7 @@ class Player:
                 self.hand.append(deck.pop())
             except IndexError:
                 print("Deck is empty")
+                break
 
 
 deck = createNewDeck(deck)
